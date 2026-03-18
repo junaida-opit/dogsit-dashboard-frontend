@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* Remove the default outline */
+input:focus {
+  outline: none;
+}
+
+/* Optional: Add a custom, accessible focus style (e.g., a border or box shadow) */
+input:focus {
+  border: 1px solid #6b6b6b; /* example border */
+}
