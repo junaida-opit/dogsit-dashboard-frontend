@@ -31,7 +31,7 @@ export default function Register() {
   const onSubmit = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
     navigate("/");
-    console.log("User registered");
+    console.log("User Logged In");
   };
 
   return (

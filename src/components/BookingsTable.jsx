@@ -23,7 +23,7 @@ export default function BookingsTable({ bookings }) {
 
 function BookingRow({ booking }) {
   return (
-    <tr className="border-t [&_td]:py-4 [&_td]:text-center [&_td]:mx-auto">
+    <tr className="border-t text-gray-800 border-gray-300 [&_td]:py-4 [&_td]:text-center [&_td]:mx-auto">
       <td className="">
         <span className="">#{booking.reference}</span>
       </td>
@@ -46,6 +46,8 @@ function StatusBadge({ status }) {
   };
 
   return (
-    <span className={`px-3 py-1 rounded  ${styles[status]}`}>{status}</span>
+    <span className={`px-3 py-1 rounded capitalize ${styles[status]}`}>
+      {status}
+    </span>
   );
 }
