@@ -30,7 +30,7 @@ export const fetchActiveBookings = async () => {
 };
 
 export const fetchBookings = async () => {
-  const { data } = await axios.get("bookings/");
+  const { data } = await axios.get("/bookings/");
   return data;
 };
 

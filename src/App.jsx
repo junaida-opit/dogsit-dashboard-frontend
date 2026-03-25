@@ -12,18 +12,20 @@ import DashboardPageNotFound from "./pages/DashboardPageNotFound";
 
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import BookingsList from "./pages/BookingsList";
-import { DecimalsArrowLeft } from "lucide-react";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
 function App() {
   return (
     <Routes>
-      <Route element={<DashboardLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/bookings" element={<BookingsList />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/bookings/:bookingId" element={<DetailedView />} />
-        <Route path="*" element={<DashboardPageNotFound />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/bookings" element={<BookingsList />} />
+          <Route path="/users" element={<Users />} />
+          {/* <Route path="/settings" element={<Settings />} /> */}
+          <Route path="/bookings/:bookingId" element={<DetailedView />} />
+          <Route path="*" element={<DashboardPageNotFound />} />
+        </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
       <Route path="/login" element={<Login />} />

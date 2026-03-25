@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Menu } from "lucide-react";
+import { X, Menu, LogOut } from "lucide-react";
 import { Outlet, Link } from "react-router-dom";
 import { sidebarLinks } from "../../../constants";
-
+import { logoutUser } from "../../api/auth";
+import logo from "../../assets/logo.svg";
+import noDisplayPic from "../../assets/noDisplayPic.png";
 export default function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -53,11 +55,9 @@ export default function DashboardLayout() {
             <Menu className="w-6 h-6" />
           </button>
 
-          <h1 className="text-lg font-semibold">Dashboard</h1>
-
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 ml-auto">
             <span className="text-sm text-gray-600">Welcome back</span>
-            <div className="w-8 h-8 rounded-full bg-gray-300" />
+            <img className="w-8 h-8 rounded-full" src={noDisplayPic} />
           </div>
         </header>
 
@@ -72,11 +72,23 @@ export default function DashboardLayout() {
 }
 
 function SidebarContent({ collapsed, toggleCollapse, isMobile }) {
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
   return (
     <div>
-      <div className="flex items-center justify-between p-4 border-b">
+      <div className="flex items-center justify-between p-4  h-16">
         {!collapsed && (
-          <span className="text-xl font-semibold">My Dashboard</span>
+          <div className="text-xl font-semibold flex gap-2">
+            <img className="w-3.5 m-auto h-3.5" src={logo} alt="PupDesk logo" />
+            <span className="m">PupDesk</span>
+          </div>
         )}
 
         <button
@@ -97,6 +109,13 @@ function SidebarContent({ collapsed, toggleCollapse, isMobile }) {
             collapsed={collapsed}
           />
         ))}
+        <button
+          className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-gray-100 transition text-sm font-medium"
+          onClick={handleLogout}
+        >
+          <LogOut className="w-5 h-5" />
+          {!collapsed && <span className="text-sm font-medium">Logout</span>}
+        </button>
       </nav>
     </div>
   );

@@ -5,7 +5,6 @@ import { registerSchema } from "../schemas/registerSchema";
 import { registerUser } from "../api/auth";
 import bgImage from "../assets/bg.jpg";
 import SubmitButton from "../components/SubmitButton";
-
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -18,20 +17,14 @@ export default function Register() {
     resolver: zodResolver(registerSchema),
   });
 
-  // const onSubmit = async (data) => {
-  //   try {
-  //     await registerUser(data);
-
-  //     console.log("User registered");
-  //   } catch (error) {
-  //     console.error("Registration failed", error);
-  //   }
-  // };
-
-  const onSubmit = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    navigate("/login");
-    console.log("User registered");
+  const onSubmit = async (data) => {
+    try {
+      await registerUser(data);
+      navigate("/login");
+      console.log("User registered");
+    } catch (error) {
+      console.error("Registration failed", error);
+    }
   };
 
   return (

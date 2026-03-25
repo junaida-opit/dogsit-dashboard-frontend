@@ -2,13 +2,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginSchema } from "../schemas/loginSchema";
-import { registerUser } from "../api/auth";
+import { loginUser } from "../api/auth";
 import bgImage from "../assets/bg.jpg";
 import SubmitButton from "../components/SubmitButton";
 
 import { useNavigate } from "react-router-dom";
 
-export default function Register() {
+export default function Login() {
   const navigate = useNavigate();
   const {
     register,
@@ -18,20 +18,17 @@ export default function Register() {
     resolver: zodResolver(loginSchema),
   });
 
-  // const onSubmit = async (data) => {
-  //   navigate("/home");
-  //   console.log("User registered");
-  //   try {
-  //     await registerUser(data);
-  //   } catch (error) {
-  //     console.error("Registration failed", error);
-  //   }
-  // };
+  const onSubmit = async (data) => {
+    try {
+      const res = await loginUser(data);
 
-  const onSubmit = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    navigate("/");
-    console.log("User Logged In");
+      console.log("User Logged In", res);
+      localStorage.setItem("token", res.token);
+
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed", error);
+    }
   };
 
   return (

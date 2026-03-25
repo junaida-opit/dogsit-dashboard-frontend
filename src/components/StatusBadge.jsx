@@ -1,9 +1,11 @@
 const StatusBadge = ({ status }) => {
   const styles = {
     completed: "bg-green-100 text-green-600",
-    pending: "bg-grey-100 text-grey-600",
+    paid: "bg-green-100 text-green-600",
+    pending: "bg-gray-100 text-gray-600",
     active: "bg-yellow-100 text-yellow-600",
     cancelled: "bg-red-100 text-red-600",
+    unpaid: "bg-red-100 text-red-600",
   };
 
   return (

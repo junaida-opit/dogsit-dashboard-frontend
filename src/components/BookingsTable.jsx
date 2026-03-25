@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { dateFormatter } from "../utils/functions";
+import StatusBadge from "./StatusBadge";
 export default function BookingsTable({ bookings }) {
   return (
     <table className="w-full border-collapse">
@@ -37,25 +39,11 @@ function BookingRow({ booking }) {
       <td>#{booking.id}</td>
       <td>{booking.customerName}</td>
       <td className="hidden xl:table-cell">{booking.location}</td>
-      <td>{booking.scheduledAt}</td>
+      <td>{dateFormatter(booking.scheduledAt)}</td>
       <td className="hidden lg:table-cell">{booking.service}</td>
       <td className="hidden lg:table-cell">
-        <StatusBadge status={booking.status} />
+        <StatusBadge status={booking.paymentStatus} />
       </td>
     </tr>
-  );
-}
-
-function StatusBadge({ status }) {
-  const styles = {
-    paid: "bg-green-100 text-green-600",
-    unpaid: "bg-red-100 text-red-600",
-    processing: "bg-purple-100 text-purple-600",
-  };
-
-  return (
-    <span className={`px-3 py-1 rounded capitalize ${styles[status]}`}>
-      {status}
-    </span>
   );
 }
