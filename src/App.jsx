@@ -5,12 +5,14 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
+import DetailedView from "./pages/DetailedView";
 
 import PageNotFound from "./pages/PageNotFound";
 import DashboardPageNotFound from "./pages/DashboardPageNotFound";
 
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import BookingsList from "./pages/BookingsList";
+import { DecimalsArrowLeft } from "lucide-react";
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/bookings" element={<BookingsList />} />
         <Route path="/users" element={<Users />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/bookings/:bookingId" element={<DetailedView />} />
         <Route path="*" element={<DashboardPageNotFound />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />

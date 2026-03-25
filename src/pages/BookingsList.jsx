@@ -1,13 +1,15 @@
 import BookingsTable from "../components/BookingsTable";
-import { generateBookings } from "../utils/dummyData";
+import { useAllBookings } from "../hooks/useBookings";
 
 const BookingsList = () => {
-  const bookings = generateBookings(50);
-  console.log(bookings);
+  const { data: allBookings, isLoading } = useAllBookings();
+  if (isLoading || !allBookings) {
+    return <div className="text-white">Loading...</div>;
+  }
 
   return (
     <div>
-      <BookingsTable bookings={bookings} />
+      <BookingsTable bookings={allBookings} />
     </div>
   );
 };

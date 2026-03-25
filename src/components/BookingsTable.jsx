@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 export default function BookingsTable({ bookings }) {
   return (
     <table className="w-full border-collapse">
@@ -22,15 +23,22 @@ export default function BookingsTable({ bookings }) {
 }
 
 function BookingRow({ booking }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/bookings/${booking.id}`);
+  };
+
   return (
-    <tr className="border-t text-gray-800 border-gray-300 [&_td]:py-4 [&_td]:text-center [&_td]:mx-auto">
-      <td className="">
-        <span className="">#{booking.reference}</span>
-      </td>
-      <td>{booking.name}</td>
-      <td className="hidden xl:table-cell">{booking.address}</td>
-      <td>{booking.date}</td>
-      <td className="hidden lg:table-cell">{booking.type}</td>
+    <tr
+      onClick={handleClick}
+      className="border-t text-gray-800 border-gray-300 cursor-pointer hover:bg-gray-100 transition [&_td]:py-4 [&_td]:text-center"
+    >
+      <td>#{booking.id}</td>
+      <td>{booking.customerName}</td>
+      <td className="hidden xl:table-cell">{booking.location}</td>
+      <td>{booking.scheduledAt}</td>
+      <td className="hidden lg:table-cell">{booking.service}</td>
       <td className="hidden lg:table-cell">
         <StatusBadge status={booking.status} />
       </td>

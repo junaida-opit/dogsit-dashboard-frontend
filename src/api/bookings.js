@@ -23,3 +23,18 @@ export const fetchRecentBookings = async () => {
   const { data } = await axios.get("/bookings/recent");
   return data;
 };
+
+export const fetchActiveBookings = async () => {
+  const { data } = await axios.get("/bookings/active");
+  return data;
+};
+
+export const fetchBookings = async () => {
+  const { data } = await axios.get("bookings/");
+  return data;
+};
+
+export const fetchBookingDetails = async (bookingId) => {
+  const { data } = await axios.get(`/bookings/${bookingId}`);
+  return data;
+};

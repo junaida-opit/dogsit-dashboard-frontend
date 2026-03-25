@@ -1,6 +1,16 @@
-import { activeBookingsData } from "../../constants";
+import { useActiveBookings } from "../hooks/useBookings.js";
+import { useNavigate } from "react-router-dom";
 
 export default function ActiveBookings() {
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+    navigate(`/bookings/${id}`);
+  };
+  const { data: activeBookings, isLoading } = useActiveBookings();
+  if (isLoading || !activeBookings) {
+    return <div className="text-white">Loading...</div>;
+  }
+  // console.log(activeBookings);
   return (
     <div className="lg:col-span-2 bg-white rounded-2xl shadow p-4">
       <h2 className="text-sm font-semibold mb-4">Active Bookings</h2>
@@ -14,12 +24,16 @@ export default function ActiveBookings() {
       </div>
 
       <div className="space-y-4">
-        {activeBookingsData.map((booking, i) => (
-          <div key={i} className="grid grid-cols-4 items-center gap-2">
+        {activeBookings.map((booking, i) => (
+          <div
+            onClick={() => handleClick(booking.id)}
+            key={i}
+            className="grid grid-cols-4 items-center gap-2 cursor-pointer hover:bg-gray-100 transition p-2 rounded-lg "
+          >
             {/* Text columns */}
-            <span className="text-sm">{booking.client}</span>
+            <span className="text-sm">{booking.customerName}</span>
             <span className="text-sm">{booking.service}</span>
-            <span className="text-sm">{booking.sitter}</span>
+            <span className="text-sm">{booking.sitterName}</span>
 
             {/* Completion */}
             <div className="flex flex-col items-end">

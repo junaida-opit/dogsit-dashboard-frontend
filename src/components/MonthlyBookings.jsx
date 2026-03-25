@@ -25,7 +25,7 @@ export default function MonthlyBookings() {
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="Bookings"
+            dataKey="bookings"
             stroke="#14b8a6"
             fill="#99f6e4"
           />
