@@ -1,14 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Menu, LogOut } from "lucide-react";
+import { X, Menu, LogOut, ArrowLeft } from "lucide-react";
 import { Outlet, Link } from "react-router-dom";
 import { sidebarLinks } from "../../../constants";
 import { logoutUser } from "../../api/auth";
 import logo from "../../assets/logo.svg";
 import noDisplayPic from "../../assets/noDisplayPic.png";
+
 export default function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const canGoBack = window.history.length > 2;
+  const handleBackNav = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       <motion.aside
@@ -43,6 +51,7 @@ export default function DashboardLayout() {
                 collapsed={false}
                 toggleCollapse={() => setMobileOpen(false)}
                 isMobile
+                closeSidebar={() => setMobileOpen(false)} // <-- add this
               />
             </motion.aside>
           </div>
@@ -61,8 +70,14 @@ export default function DashboardLayout() {
           </div>
         </header>
 
-        <main className="flex-1 p-6 overflow-auto">
-          <div className="bg-white rounded-2xl shadow p-6">
+        <main className="flex-1 p-0 md:p-6 overflow-auto">
+          <div className="bg-white md:rounded-2xl shadow p-6">
+            {canGoBack && (
+              <button className="hover:cursor-pointer" onClick={handleBackNav}>
+                <ArrowLeft className="w-4 h-4" />
+              </button>
+            )}
+
             <Outlet />
           </div>
         </main>
@@ -85,10 +100,10 @@ function SidebarContent({ collapsed, toggleCollapse, isMobile }) {
     <div>
       <div className="flex items-center justify-between p-4  h-16">
         {!collapsed && (
-          <div className="text-xl font-semibold flex gap-2">
+          <a href="/" className="text-xl font-semibold flex gap-2">
             <img className="w-3.5 m-auto h-3.5" src={logo} alt="PupDesk logo" />
             <span className="m">PupDesk</span>
-          </div>
+          </a>
         )}
 
         <button
@@ -107,10 +122,11 @@ function SidebarContent({ collapsed, toggleCollapse, isMobile }) {
             label={item.label}
             url={item.url}
             collapsed={collapsed}
+            closeSidebar={isMobile ? toggleCollapse : undefined} // <-- use toggleCollapse for mobile
           />
         ))}
         <button
-          className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-gray-100 transition text-sm font-medium"
+          className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-gray-100 transition text-sm font-medium hover:cursor-pointer"
           onClick={handleLogout}
         >
           <LogOut className="w-5 h-5" />
@@ -121,10 +137,11 @@ function SidebarContent({ collapsed, toggleCollapse, isMobile }) {
   );
 }
 
-function SidebarItem({ icon: Icon, label, collapsed, url }) {
+function SidebarItem({ icon: Icon, label, collapsed, url, closeSidebar }) {
   return (
     <Link
       to={url}
+      onClick={() => closeSidebar?.()}
       className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-gray-100 transition"
     >
       <Icon className="w-5 h-5" />

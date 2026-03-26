@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
+  const [message, setMessage] = useState(null); // { type: "error" | "success", text: string }
+
   const {
     register,
     handleSubmit,
@@ -20,10 +22,22 @@ export default function Register() {
   const onSubmit = async (data) => {
     try {
       await registerUser(data);
-      navigate("/login");
-      console.log("User registered");
+      setMessage({
+        type: "success",
+        text: "Registration successful! Redirecting...",
+      });
+
+      // Optional: redirect after short delay to show success message
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
       console.error("Registration failed", error);
+      setMessage({
+        type: "error",
+        text:
+          error?.response?.data?.message || "Login failed. Please try again.",
+      });
     }
   };
 

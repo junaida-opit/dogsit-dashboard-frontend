@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "../api/users";
+import { useNavigate } from "react-router-dom";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleClick = (user) => {
+    navigate(`/users/${user.id}`);
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,7 +34,7 @@ export default function Users() {
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Email</th>
+          <th className="hidden md:flex">Email</th>
           <th>Role</th>
           <th>Active</th>
         </tr>
@@ -36,12 +42,13 @@ export default function Users() {
       <tbody>
         {users.map((user) => (
           <tr
+            onClick={() => handleClick(user)}
             key={user.id}
             className="border-t text-gray-800 border-gray-300 cursor-pointer hover:bg-gray-100 transition [&_td]:py-4 [&_td]:text-center"
           >
             <td>{user.id}</td>
             <td>{user.name}</td>
-            <td>{user.email}</td>
+            <td className="hidden md:flex">{user.email}</td>
             <td className="">{user.role}</td>
             <td>{user.isActive ? "Yes" : "No"}</td>
           </tr>

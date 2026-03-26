@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import DetailedView from "./pages/DetailedView";
+import DetailedUser from "./pages/DetailedUser";
 
 import PageNotFound from "./pages/PageNotFound";
 import DashboardPageNotFound from "./pages/DashboardPageNotFound";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/users" element={<Users />} />
           {/* <Route path="/settings" element={<Settings />} /> */}
           <Route path="/bookings/:bookingId" element={<DetailedView />} />
+          <Route path="/users/:userId" element={<DetailedUser />} />
           <Route path="*" element={<DashboardPageNotFound />} />
         </Route>
       </Route>
